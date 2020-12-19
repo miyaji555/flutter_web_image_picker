@@ -18,19 +18,26 @@ class ImagePickerPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://1.bp.blogspot.com/-kgcAHrla1MM/WkR96Ewyx2I/AAAAAAABJWA/feKfyDf44J4xQObtAu8WXWsxT8Osk-ucQCLcBGAs/s800/oomisoka_yoiotoshio_summer_woman.png')),
-                    ),
-                  ),
+                  model.imageURL == null
+                      ? SizedBox()
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(model.imageURL.toString())),
+                          ),
+                        ),
+                  RaisedButton(
+                    color: Colors.green,
+                    onPressed: () {
+                      model.downloadUrl();
+                    },
+                  )
                 ],
               ),
             ),
