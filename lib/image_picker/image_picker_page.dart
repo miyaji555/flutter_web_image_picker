@@ -14,7 +14,16 @@ class ImagePickerPage extends StatelessWidget {
             body: Container(
               height: double.infinity,
               width: double.infinity,
-              child: Center(child: RaisedButton()),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(model.textMessage),
+                  Center(
+                      child: RaisedButton(
+                    onPressed: model.fetch,
+                  )),
+                ],
+              ),
             ),
           );
         });
