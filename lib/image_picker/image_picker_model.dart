@@ -1,35 +1,22 @@
 import 'dart:html';
 
 import 'package:firebase/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ImagePickerModel extends ChangeNotifier {
   String textMessage = 'initial';
   Uri imageURL;
+  bool isLoading = false;
 
-  void fetch() {
-    final instanse = FirebaseFirestore.instance;
-    final snapshot =
-        instanse.collection('user').doc('dxOmk3FX0W3kywxAf29a').snapshots();
-    snapshot.listen((event) async {
-      textMessage = await event.data()['testfield'];
-      print(event);
-      print(event.data()['testfield']);
-      notifyListeners();
-    });
-  }
-
-  Future downloadUrl() async {
+  Future _downloadUrl(String path) async {
     imageURL = await storage()
         .refFromURL('gs://flutterwebimagepicker.appspot.com/')
-        .child('イラスト屋/oomisoka_yoiotoshio_summer_woman.png')
+        .child('イラスト屋/$path')
         .getDownloadURL();
     print(imageURL);
-    notifyListeners();
   }
 
-  void pickupImage({@required Function(File file) onSelected}) {
+  Future<void> _pickupImage({@required Function(File file) onSelected}) {
     InputElement uploadInput = FileUploadInputElement()..accept = 'image/*';
     uploadInput.click();
 
@@ -43,15 +30,21 @@ class ImagePickerModel extends ChangeNotifier {
     });
   }
 
-  void uploadToStorage() {
+  Future<void> uploadToStorage() async {
     final dateTime = DateTime.now();
     final path = 'dxOmk3FX0W3kywxAf29a/$dateTime';
-    pickupImage(
-      onSelected: (file) {
-        storage()
+    _pickupImage(
+      onSelected: (file) async {
+        isLoading = true;
+        notifyListeners();
+        await storage()
             .refFromURL('gs://flutterwebimagepicker.appspot.com/')
-            .child('イラスト屋/oomisoka_yoiotoshio_summer_woman.png')
-            .put(file);
+            .child('イラスト屋/$path')
+            .put(file)
+            .future;
+        await _downloadUrl(path);
+        isLoading = false;
+        notifyListeners();
       },
     );
   }
