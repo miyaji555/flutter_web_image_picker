@@ -17,33 +17,32 @@ class ImagePickerPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: model.imageURL == null
-                        ? SizedBox()
-                        : model.isLoading
-                            ? CircularProgressIndicator()
-                            : Container(
-                                width: 100,
-                                height: 100,
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          model.imageURL.toString())),
-                                ),
-                              ),
-                    onTap: () {
-                      model.uploadToStorage();
-                    },
-                  ),
+                  model.imageURL == null
+                      ? SizedBox()
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(model.imageURL.toString())),
+                          ),
+                        ),
                   RaisedButton(
                     child: Text('画像を選択する'),
                     color: Colors.pink,
                     onPressed: () {
                       model.uploadToStorage();
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('新たな画像の取得'),
+                    color: Colors.green,
+                    onPressed: () {
+                      model.downloadUrl();
                     },
                   ),
                 ],
