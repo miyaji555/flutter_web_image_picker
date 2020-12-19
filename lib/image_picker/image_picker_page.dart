@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_image_picker/image_picker/image_picker_model.dart';
 import 'package:provider/provider.dart';
@@ -33,12 +32,19 @@ class ImagePickerPage extends StatelessWidget {
                           ),
                         ),
                   RaisedButton(
+                    child: Text('画像を選択する'),
+                    color: Colors.pink,
+                    onPressed: () {
+                      model.uploadToStorage();
+                    },
+                  ),
+                  RaisedButton(
                     child: Text('新たな画像の取得'),
                     color: Colors.green,
                     onPressed: () {
                       model.downloadUrl();
                     },
-                  )
+                  ),
                 ],
               ),
             ),
