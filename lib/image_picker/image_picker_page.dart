@@ -33,6 +33,7 @@ class ImagePickerPage extends StatelessWidget {
                           ),
                         ),
                   RaisedButton(
+                    child: Text('新たな画像の取得'),
                     color: Colors.green,
                     onPressed: () {
                       model.downloadUrl();
